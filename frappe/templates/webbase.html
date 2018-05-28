@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<!-- Built on Frappe. https://frappe.io/ -->
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{% block title %} {{ title | striptags }} {% endblock %}</title>
+	<meta name="generator" content="frappe">
+    {% block favicon %}
+	<link rel="shortcut icon"
+		href="/assets/frappe/images/favicon.ico
+		type="image/x-icon">
+	<link rel="icon"
+		href="/assets/frappe/images/favicon.ico"
+		type="image/x-icon">
+    
+    <meta name="robots" content="noindex,nofollow">
+
+    {% endblock %}
+
+	{%- block head -%}
+
+		{% block meta_block %}{% endblock %}
+
+		{% if head_html is defined -%}
+
+		{{ head_html or "" }}
+
+		{%- endif %}
+
+		{%- for link in custom_web_include_css %}
+
+		<link type="text/css" rel="stylesheet" href="{{ link|abs_url }}">
+
+		{%- endfor -%}
+
+	    {%- block head_include %}{{ head_include or "" }}{% endblock -%}
+
+		{%- block style %}{%- endblock -%}
+   
+
+	{%- endblock -%}
+    <link href="https://fonts.googleapis.com/css?family=Hind:300,400,500,600,700|Poppins:100,200,300,400,500,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/frappe/assets/plugins/fancybox/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/frappe/assets/plugins/fancybox/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">    
+    <link type="text/css" rel="stylesheet" href="/assets/css/custom-frappe-web.css">      
+    <script>
+    	window.frappe = {};
+    	frappe.ready_events = [];
+    	frappe.ready = function(fn) {
+    		frappe.ready_events.push(fn);
+    	}
+    	window.dev_server = {{ dev_server }};
+    </script>
+
+</head>
+{% block body %}
+
+<body data-path="{{ path }}">
+    {% block base_scripts %}
+    <script src="https://use.fontawesome.com/ffcc57d59e.js"></script>
+    <script src="/assets/frappe/assets/libs/jquery-1.12.4.min.js"></script>
+    <script src="/assets/frappe/assets/libs/jquery-1.12.4.min.js"></script>
+    <script src="/assets/frappe/assets/libs/jquery-migrate-1.2.1.js"></script>
+    <script src="/assets/frappe/assets/js/custom.js"></script>
+    <script src="/assets/frappe/assets/plugins/headers/slidebar.js"></script>
+    <script src="/assets/frappe/assets/plugins/headers/header.js"></script>
+    <script src="/assets/js/frappe-web.min.js"></script>    
+    <script src="/assets/frappe/assets/libs/bootstrap/bootstrap.min.js"></script>   
+    <script src="/assets/frappe/assets/plugins/bootstrap-select/js/bootstrap-select.min.js"></script>
+    <script src="/assets/frappe/assets/plugins/owl-carousel/owl.carousel.min.js"></script>
+    <script src="/assets/frappe/assets/plugins/magnific-popup/jquery.magnific-popup.min.js">     </script>
+    <script src="/assets/frappe/assets/plugins/jqBootstrapValidation.js"></script>
+    <script src="/assets/frappe/assets/plugins/contact_me.js"></script>
+    <script src="/assets/frappe/assets/plugins/rendro-easy-pie-chart/jquery.easypiechart.min.js"></script>
+    <script src="/assets/frappe/assets/plugins/rendro-easy-pie-chart/waypoints.min.js"></script>
+    <script src="/assets/frappe/assets/plugins/noUiSlider/nouislider.min.js"></script>
+    <script src="/assets/frappe/assets/plugins/noUiSlider/wNumb.js"></script>
+    <script src="/assets/frappe/assets/plugins/scrollreveal/scrollreveal.min.js"></script>
+    <script src="/assets/frappe/assets/plugins/slider-pro/jquery.sliderPro.min.js"></script> 
+    <script src="/assets/frappe/assets/plugins/fancybox/jquery.fancybox.min.js"></script>
+    <script src="/assets/frappe/assets/plugins/fancybox/jquery.fancybox.js"></script>   
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function(){ $(".bootstrap-select").click(function(){ $(this).toggleClass("open"); }); }) 
+
+    $('#car_brand_select').on('change', function() {
+      $('#search_item').val('');
+    })
+
+    </script>
+    {% endblock %} 
+    
+
+	<div class="main-section">
+		{% include "templates/includes/navbar/SearchHeader.html" %}
+		<div>
+			  <div class="l-theme animated-css" data-header="sticky" data-header-top="200" data-canvas="container">
+			{%- block navbar -%}
+            {% include "templates/includes/navbar/MainHeader.html" %}
+            {%- endblock -%}
+			
+
+             {% block content %}{% endblock %}
+			</div>
+		</div>
+		<div>
+			{%- block footer -%}{% include "templates/includes/footer/webfooter.html" %}{%- endblock -%}
+		</div>
+	</div>
+
+
+    
+
+    {%- if js_globals is defined %}
+    <script>
+    {%- for key, value in js_globals.iteritems() %}
+    window.{{ key }} = "{{ value[0] }}";
+    {%- endfor -%}
+    </script>
+    {% endif -%}
+	{%- for link in web_include_js %}
+	<script type="text/javascript" src="{{ link|abs_url }}"></script>
+	{%- endfor -%}
+
+	<!-- csrf_token -->
+    {%- block body_include %}{{ body_include or "" }}{% endblock -%}
+</body>
+{% endblock %}
+</html>
+

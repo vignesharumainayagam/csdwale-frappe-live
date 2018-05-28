@@ -1,0 +1,68 @@
+<footer class="footer area-bg">
+                <div class="area-bg__inner">
+                    <div class="footer__main">
+                        <div class="container">
+                            <div class="row">
+                             <div class="col-md-3">
+                                    <section class="footer-section footer-section_list-one">
+                                        <h3 class="footer-section__title ui-title-inner">Top Categories</h3>
+                                        <ul class="footer-list list-unstyled">
+                                            {% for o in item_categories %}
+                                            <li class="footer-list__item"><a class="footer-list__link" href="/csd-{{o.route}}">{{o.category_name}}</a>
+                                            </li><br>
+                                            {% endfor %}
+                                        </ul>
+                                    </section>
+                                </div>
+                                <div class="col-md-4">
+                                    <section class="footer-section footer-section_list-columns">
+                                        <h3 class="footer-section__title ui-title-inner">Top Brands</h3>
+                                        <ul class="footer-list footer-list_columns list-unstyled">
+                                            {% for i in brands %}
+                                            <li class="footer-list__item"><a class="footer-list__link" href="/csd-{{i.category_route}}/{{i.route}}">{{i.brand_name}}</a>
+                                            </li>
+                                            {% endfor %}    
+                                        </ul>
+                                    </section>
+                                </div>
+                                <div class="col-md-2">
+                                    <section class="footer-section footer-section_list-one">
+                                        <h3 class="footer-section__title ui-title-inner">Support</h3>
+                                        <ul class="footer-list list-unstyled">
+                                            <li class="footer-list__item"><a class="footer-list__link" href="#">contact@dcsd.com</a>
+                                            </li>
+                            
+                                        </ul>
+                                    </section>
+                                </div>
+
+                                       <div class="col-md-3">
+                                     <section class="footer-section footer-section_list-one">
+                                        <h3 class="footer-section__title ui-title-inner">Join Us</h3>
+                                                     <ul class="social-net list-inline">
+                                            <li class="social-net__item"><a class="social-net__link text-primary_h" href="#"><i class="icon fa fa-facebook"></i></a>
+                                            </li>
+                                            <li class="social-net__item"><a class="social-net__link text-primary_h" href="#"><i class="icon fa fa-twitter"></i></a>
+                                            </li>
+                                            <li class="social-net__item"><a class="social-net__link text-primary_h" href="#"><i class="icon fa fa-linkedin"></i></a>
+                                            </li>
+                                            <li class="social-net__item"><a class="social-net__link text-primary_h" href="#"><i class="icon fa fa-instagram"></i></a>
+                                            </li>
+                                            <li class="social-net__item"><a class="social-net__link text-primary_h" href="#"><i class="icon fa fa-youtube-play"></i></a>
+                                            </li>
+                                        </ul>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="copyright">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xs-12">Copyrights 2018<a class="copyright__brand" href="#"> DCSD</a> All Rights Reserved<a class="copyright__link" href="#">Privacy Policy</a><a class="copyright__link" href="#">Terms &amp; Conditions</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div><span class="btn-up" id="toTop">TOP</span>
+                </div>
+            </footer>

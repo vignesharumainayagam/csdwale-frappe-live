@@ -1,0 +1,176 @@
+<!-- Modal -->
+<div class="modal fade" id="citysearch" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" style="float: right !important;">&times;</button>
+                <h4 class="modal-title">Choose City</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <input class="form-control ui-autocomplete-input" type="text" placeholder="Type to select city" style="margin-bottom: 2px;" id="city_options" autocomplete="on">
+                </div>
+                <div id="availCities">
+                    
+                </div>
+            </div>
+            <div class="modal-footer" style="padding: 10px">
+                <button type="button" class="btn btn-default" id="submit_city">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<header class="header header-boxed-width navbar-fixed-top header-color-black header-topbar-dark header-logo-black header-topbarbox-1-left header-topbarbox-2-right header-navibox-1-left header-navibox-2-right header-navibox-3-right header-navibox-4-right">
+    <div class="container container-boxed-width">
+        <nav class="navbar" id="nav">
+            <div class="container">
+                <div class="header-navibox-1">
+                    <button class="menu-mobile-button visible-xs-block js-toggle-mobile-slidebar toggle-menu-button"><i class="toggle-menu-button-icon"><span></span><span></span><span></span><span></span><span></span><span></span></i>
+                    </button>
+                    <a class="navbar-brand scroll" href="/">
+                        <img class="normal-logo img-responsive" src="/assets/frappe/assets/media/general/logo.png" alt="logo" />
+                        <img class="scroll-logo hidden-xs img-responsive" src="/assets/frappe/assets/media/general/logo-dark.png" alt="logo" />
+                    </a>
+                </div>
+                <div class="header-navibox-3">
+                    <ul class="nav navbar-nav hidden-xs clearfix vcenter">
+                        <li class="location-text">
+                            <a class="location-a" href="#" id="city_a">
+                                <i class="icon fa fa-map-marker"></i>
+                                <span class="location-span">
+                                    {% if current_location %}
+                                        {{current_location}}
+                                    {% else %}
+                                        Set Location
+                                    {% endif %}
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="header-navibox-2">
+                    <ul class="yamm main-menu nav navbar-nav">
+                        <li><a href="/csd-dealers">Dealers</a>
+                        </li>
+                        {% for u in item_categories%}
+                        <li><a href="/csd-{{u.route}}">{{u.category_name}}</a>
+                        </li>
+                        {% endfor %}
+                        <li><a href="/news">News</a>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
+<script type="text/javascript">
+$('#city_a').click(function() {
+    var cookie_location = $.cookie('city_location');
+    if (cookie_location != null) {
+        $('#city_options').val(cookie_location);
+    }
+    $('#citysearch').modal('show');
+    $("#citysearch").prepend('<div class="modal-backdrop fade in" style="height: 100%;"></div>');
+
+});
+
+$('#submit_city').click(function() {
+    $.removeCookie("city_location");
+    var city = $("#city_options").val();
+    $.cookie("city_location", city, { path: '/' });
+    location.reload();
+});
+
+$(function() {
+    var city = []    
+    frappe.call({
+        method: "frappe.website.context.get_cities",
+        args: {},
+        async: false,
+        callback: function(r) {
+            var html="";
+            console.log(r.message)
+            for (var i = 0; i < r.message.length; i++) {
+                city.push(r.message[i].name);
+                var value='';
+                value+=r.message[i].name;
+                html+="<li><a onclick='changeCity(this)' data-attr="+r.message[i].name+"><input type='hidden' id='cityname' value='"+r.message[i].name+"'/>"+r.message[i].city_name+"</a></li>"
+            }
+            $("#availCities").html(html);
+        }
+    });
+
+    var availableTags = city;
+    $("#city_options").autocomplete({
+        source: availableTags
+    });
+
+
+});
+function changeCity(data){
+    var value=$(data)    
+    var refvalue=value.context.attributes[1];
+    console.log(refvalue.value)
+    $("#city_options").val(refvalue.value)
+}
+</script>
+<style type="text/css">
+.header-search1 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: block;
+    visibility: hidden;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(34, 34, 34, 0.95);
+    opacity: 0;
+    z-index: 99999;
+    transition: all 0.3s ease 0s;
+}
+
+
+.header-search1.open {
+    visibility: visible;
+    opacity: 1;
+}
+
+.location-text {
+    font-size: 13px;
+    display: inline-flex !important;
+}
+
+.location-span {
+    font-size: 13px;
+    font-weight: 300;
+    text-transform: none;
+    padding: 3px 0px 0px 5px !important;
+}
+
+.location-a {
+
+    padding: 0 8px !important;
+}
+#availCities{
+    columns: 4;
+    margin-top: 12px;
+}
+#availCities li{
+    display: block;
+    /*padding: 4px 8px;*/
+    background: #f1f1f1;
+    /*border: 1px solid #ddd;*/
+    margin-bottom: 5px;
+}
+#availCities a{
+    padding: 10px;
+    color:#222;
+}
+@media (min-width: 768px){
+    .modal-dialog{
+        width:615px;
+    }
+}
+
+</style>
