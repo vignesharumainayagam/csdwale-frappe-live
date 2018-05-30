@@ -399,32 +399,53 @@ def web_search(text, start=0, limit=20):
 
 @frappe.whitelist(allow_guest=True)
 def csd_search(text, start=0, limit=20):
-	result = frappe.db.sql(''' 
-		select *,
-			CASE doctype
-			    WHEN 'Item' THEN (select CONCAT('csd-',C.route,'/', B.route,'/',I.route) AS ConcatenatedString
+	text = '%'+text+'%'
+	result = frappe.db.sql(""" 
+		select name,
+		CASE doctype
+		    WHEN 'Item' THEN (select CONCAT('csd-',C.route,'/', B.route,'/',I.route) AS ConcatenatedString
 		from `tabItem` I
-			inner join `tabItemBrand` B
-				on I.`brand`=B.`name`
-			inner join `tabCategory` C
-				on I.`category` = C.`name`
+		inner join `tabItemBrand` B
+		on I.`brand`=B.`name`
+		inner join `tabCategory` C
+		on I.`category` = C.`name`
 		WHERE cast(I.name as char(140)) = cast(gt.name as char(140)))
 
-				WHEN 'Item Variant' THEN (select CONCAT('csd-',C.route,'/', B.route,'/',I.route,'/',V.route) AS ConcatenatedString
+			WHEN 'Item Variant' THEN (select CONCAT('csd-',C.route,'/', B.route,'/',I.route,'/',V.route) AS ConcatenatedString
 		from `tabItem Variant` V
-			inner join `tabItem` I
-				on V.`item` = I.`name`
-			inner join `tabItemBrand` B
-				on I.`brand`=B.`name`
-			inner join `tabCategory` C
-				on I.`category` = C.`name`
-			WHERE cast(V.name as char(140)) = cast(gt.name as char(140)))
+		inner join `tabItem` I
+		on V.`item` = I.`name`
+		inner join `tabItemBrand` B
+		on I.`brand`=B.`name`
+		inner join `tabCategory` C
+		on I.`category` = C.`name`
+		WHERE cast(V.name as char(140)) = cast(gt.name as char(140)))
 
-			END as RouteData
-			from __global_search gt where content like %s and doctype = 'Item' OR 'Item Variant' 
-		limit {start}, {limit}'''.format(start=start, limit=limit),
-		text,as_dict=1)	
+		END as RouteData,
 
+		CASE doctype
+		    WHEN 'Item' THEN (select CONCAT(B.brand_name,' ',I.item_name) AS ConcatenatedString
+		from `tabItem` I
+		inner join `tabItemBrand` B
+		on I.`brand`=B.`name`
+		WHERE cast(I.name as char(140)) = cast(gt.name as char(140)))
+
+			WHEN 'Item Variant' THEN (select CONCAT(B.brand_name,' ',I.item_name,' ',V.variant_name) AS ConcatenatedString
+		from `tabItem Variant` V
+		inner join `tabItem` I
+		on V.`item` = I.`name`
+		inner join `tabItemBrand` B
+		on I.`brand`=B.`name`
+		WHERE cast(V.name as char(140)) = cast(gt.name as char(140)))
+
+		END as Label
+		from __global_search gt where content like %s 
+		and 
+		doctype in ('Item', 'Item Variant') limit {start}, {limit}""".format(start=start, limit=limit), (text))	
+
+
+
+	return result
 
 
 
