@@ -20,8 +20,8 @@ class CustomURL(object):
 
 
     def setCustomUrl(self,path):
-
-        self.url=path.split('/')[0].lower()
+        path = path.lower()
+        self.url=path.split('/')[0]
         self.url_length =len(path.split('/'))
 
         

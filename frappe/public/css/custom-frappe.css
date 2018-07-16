@@ -8462,10 +8462,13 @@ select.selectpicker {
 .bootstrap-select .ui-select{
   padding: 0 10px;
 }
+.bootstrap-select > .dropdown-toggle.bs-placeholder, .bootstrap-select > .dropdown-toggle.bs-placeholder:hover, .bootstrap-select > .dropdown-toggle.bs-placeholder:focus, .bootstrap-select > .dropdown-toggle.bs-placeholder:active{
+  box-shadow: none;
+}
 .bootstrap-select > .dropdown-toggle.bs-placeholder,
 .bootstrap-select > .dropdown-toggle.bs-placeholder:hover,
 .bootstrap-select > .dropdown-toggle.bs-placeholder:focus,
-.bootstrap-select > .dropdown-toggle.bs-placeholder:active {
+.bootstrap-select > .dropdown-toggle.bs-placeholder:active {  
   color: #999;
 }
 .bootstrap-select > select {

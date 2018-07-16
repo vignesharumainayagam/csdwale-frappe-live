@@ -20,6 +20,7 @@
 
 	{%- block head -%}
 
+
 		{% block meta_block %}{% endblock %}
 
 		{% if head_html is defined -%}
@@ -40,6 +41,8 @@
    
 
 	{%- endblock -%}
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
     <link href="https://fonts.googleapis.com/css?family=Hind:300,400,500,600,700|Poppins:100,200,300,400,500,600,700" rel="stylesheet">
     <link rel="stylesheet" href="/assets/frappe/assets/plugins/fancybox/jquery.fancybox.css">
     <link rel="stylesheet" href="/assets/frappe/assets/plugins/fancybox/jquery.fancybox.min.css">
@@ -55,11 +58,18 @@
     	window.dev_server = {{ dev_server }};
     </script>
 
+
+
+
 </head>
 {% block body %}
 
+<div id="page-preloader" ><span class="spinner border-t_second_b border-t_prim_a"></span>
+        </div>
 <body data-path="{{ path }}">
     {% block base_scripts %}
+
+    
     <script src="https://use.fontawesome.com/ffcc57d59e.js"></script>
     <script src="/assets/frappe/assets/libs/jquery-1.12.4.min.js"></script>
     <script src="/assets/frappe/assets/libs/jquery-1.12.4.min.js"></script>
@@ -107,6 +117,7 @@
 			</div>
 		</div>
 		<div>
+            
 			{%- block footer -%}{% include "templates/includes/footer/webfooter.html" %}{%- endblock -%}
 		</div>
 	</div>
@@ -127,6 +138,7 @@
 
 	<!-- csrf_token -->
     {%- block body_include %}{{ body_include or "" }}{% endblock -%}
+    
 </body>
 {% endblock %}
 </html>
